@@ -8,6 +8,7 @@ public class WaterTransmitter : MonoBehaviour
     public Transform waterParticleSpawner;
     public float spreadRange = 0.1f;
     public float forceMin = 5f, forceMax = 10f; // Random force range
+    public FlipWaterParticle gravityFlipper;
     public void OnReceivingWaterParticle()
     {
         Vector3 randomOffset = new Vector3(
@@ -23,8 +24,14 @@ public class WaterTransmitter : MonoBehaviour
         Rigidbody2D rb = water.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            Vector2 sprayDirection = new Vector2(Random.Range(-0.1f, -1f), Random.Range(-0.5f, -1f)).normalized;
+            Vector2 sprayDirection = new Vector2(Random.Range(-2f, -5f), Random.Range(-0.5f, -1f)).normalized;
             rb.AddForce(sprayDirection * Random.Range(forceMin, forceMax), ForceMode2D.Impulse);
+        }
+
+        // Check if gravity is flipped from another script
+        if (gravityFlipper != null && gravityFlipper.IsGravityFlipped)
+        {
+            rb.gravityScale *= -1; // Flip gravity only if it's toggled in the other script
         }
     }
 

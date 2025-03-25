@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WaterParticle
   - Pin
+  - Wall
   layers:
   - Default
   - TransparentFX
